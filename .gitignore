@@ -1,0 +1,7 @@
+results
+count_nums
+**/*.pyc
+**/*.swp
+**/*.swo
+**/__pycache__
+**/.DS_Store
