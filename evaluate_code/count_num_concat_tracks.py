@@ -97,7 +97,7 @@ def get_label(id, label_list, bboxes_truck, movement_id, indent, cam_name):
     cnt = Counter(label_list)
     label = cnt.most_common(1)[0][0]
  
-    max_size_thr_cam  = ['cam_4', 'cam_4_dawn', 'cam_4_rain', 'cam_6', 'cam_6_snow', 'cam_10', 'cam_11', 'cam_12', 'cam_15']
+    max_size_thr_cam  = ['cam_4', 'cam_4_dawn', 'cam_4_rain', 'cam_5', 'cam_7', 'cam_6', 'cam_6_snow', 'cam_10', 'cam_11', 'cam_12', 'cam_15']
     h_thr_cam = ['cam_3']
 
     if cam_name in max_size_thr_cam:
