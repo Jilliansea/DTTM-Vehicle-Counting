@@ -7,7 +7,7 @@ torch==1.1.0
 torchvision==0.3.0
 -e git+https://github.com/open-mmlab/mmcv.git@c294d2713ba75f9ac0709d7991e71802959dc391#egg=mmcv
 -e git+https://github.com/open-mmlab/mmdetection.git@4171548ac80e6f1ee620d20f0b611ae98d6b5913#egg=mmdet
-urllib3==1.22
+urllib3==1.24.2
 imageio-ffmpeg
 scikit-learn
 numba
