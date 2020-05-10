@@ -22,8 +22,9 @@ pip3 install -r requirements.txt
 ### Get videoes directory of Track1:
 After downloading packages of AICity Challenge 2020 Track1, please unzip and **$DirPath\_to\_Track1\_AIC20\_track1** is the final directory after unzip.
 ### Download detection model:
-Download our detection model on  
-Then our code can be run as follows [RetinaNetNas-FPN](https://drive.google.com/drive/folders/1cEBRVSXJH_f6BNr_LvISRZmuMuIXnXPC)
+1. Download our detection model on [RetinaNetNas-FPN](https://drive.google.com/drive/folders/1cEBRVSXJH_f6BNr_LvISRZmuMuIXnXPC) 
+2. Put the model in directory **$main\_path/detection/NAS\_FPN/checkpoints**
+3. Then our code can be run as follows
 ### Run test code 
 ```
 python  multi_process.py --video_dir=$DirPath_to_Track1_AIC20_track1
