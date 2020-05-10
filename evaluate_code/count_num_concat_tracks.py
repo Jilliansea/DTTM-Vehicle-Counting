@@ -604,8 +604,6 @@ def main(cam_name, track_result_path):
             id = infor['id']
             file_s.write("{} {} {} {} {}\n".format(cam_label, int(frame), track, label, id))
     file_s.close()
-    #score = main_test_one(cam_res_save_path)
-    #return score
 
 def count_main(track_res_path,video_name):
     main(video_name, track_res_path)
