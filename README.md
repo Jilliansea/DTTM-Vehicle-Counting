@@ -19,8 +19,12 @@ The fast way to install our code is running commond as follows:
 pip3 install -r requirements.txt
 ```
 ## Test
-After downloading packages of AICity Challenge 2020 Track1, please unzip and **$DirPath\_to\_Track1\_AIC20\_track1** is the final directory after unzip. 
-Then our code can be run as follows: 
+### Get videoes directory of Track1:
+After downloading packages of AICity Challenge 2020 Track1, please unzip and **$DirPath\_to\_Track1\_AIC20\_track1** is the final directory after unzip.
+### Download detection model:
+Download our detection model on  
+Then our code can be run as follows [RetinaNetNas-FPN](https://drive.google.com/drive/folders/1cEBRVSXJH_f6BNr_LvISRZmuMuIXnXPC)
+### Run test code 
 ```
 python  multi_process.py --video_dir=$DirPath_to_Track1_AIC20_track1
 ```
