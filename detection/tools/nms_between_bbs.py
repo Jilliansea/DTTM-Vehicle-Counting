@@ -70,7 +70,7 @@ def nms_bbs(bboxes, score_thr, cfg):
         ov_thr_inds = np.where(iou_array > cfg.nms_thr)[0].tolist()
         ov_thr_scores = score_array[iou_array > cfg.nms_thr].tolist()
 
-        if ov_thr_inds:  # 有overlap>0.8的bbs
+        if ov_thr_inds:
             # compare score
             ov_thr_inds.append(ind)
             ov_thr_scores.append(bboxes[ind][-2])
@@ -82,10 +82,10 @@ def nms_bbs(bboxes, score_thr, cfg):
 
         # nms for low score bbs
         if cfg.improve_recall:
-            if (ind not in dele_list) and (bboxes[ind][-2] > (score_thr - 0.1) and bboxes[ind][-2] < score_thr): # 若bboxes[ind]得分大于0.2,小于0.3
+            if (ind not in dele_list) and (bboxes[ind][-2] > (score_thr - 0.1) and bboxes[ind][-2] < score_thr):
                 sc_thr_inds = np.where(iou_array > 0.)[0].tolist()
 
-                sc_thr_scores = score_array[iou_array > 0.].tolist() # 与bb有overlap的bbs
+                sc_thr_scores = score_array[iou_array > 0.].tolist() 
                 if max(sc_thr_scores) > cfg.det_score:
                     final_new_bbs.pop(final_new_bbs.index(bboxes[ind]))
                     dele_list.append(ind)

@@ -24,7 +24,7 @@ from evaluate_code.count_num_concat_tracks import count_main
 print('Load Models...')
 Model =  model_initializer()
 
-exitFlag = 0 #  视频是否读完 & 队列是否为空
+exitFlag = 0 
 queueLock = threading.Lock()
 
 def pipe_line(video_path, video_name, cfg, vid, frame_nums):
@@ -38,7 +38,7 @@ def pipe_line(video_path, video_name, cfg, vid, frame_nums):
     work_queue = Queue(frame_nums)
     thread_num = 2
     threads = []
-    # 创建新线程
+    # make multi thread
     for id in range(thread_num):
         if id == 0:
             thread = VideoReader(id, 'thread-{}'.format(id), work_queue, frame_nums, vid, video_path)
@@ -53,7 +53,6 @@ def pipe_line(video_path, video_name, cfg, vid, frame_nums):
         time.sleep(1)
         pass
     print("waiting all threads exits.")
-    # 通知线程退出
     # exitFlag = 1
     time.sleep(1)
     for t in threads:
@@ -83,8 +82,6 @@ class VideoReader(threading.Thread):
                 #image_array = np.asarray(bytearray(out), dtype="uint8")
                 #image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
                 #print('image', image)
-                #cap.set(cv2.CAP_PROP_POS_FRAMES,self.frame_ind-1)  #设置要获取的帧号
-                #_,image=cap.read()  #read方法返回一个布尔值和一个视频帧。若帧读取成功，则返回True
 
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 image_dict = dict()
@@ -96,7 +93,7 @@ class VideoReader(threading.Thread):
 
             while True:
                 if self.queue.qsize() < 1000:
-                    # 存储到队列
+                    # 
                     queueLock.acquire()
                     self.queue.put(image_dict)
                     queueLock.release()
@@ -108,7 +105,7 @@ class VideoReader(threading.Thread):
         # if self.queue.qsize == 0 and self.frame_ind > self.total_frames :
         if self.frame_ind+1 > self.total_frames:
             global exitFlag
-            exitFlag = True # 如果视频先读完了，但检测没有结束怎么办？？？？？？
+            exitFlag = True
 
 class RunFramework(threading.Thread):
     def __init__(self, thread_id, thread_name, queue, cfg, frame_nums, video_name):
@@ -159,7 +156,7 @@ class RunFramework(threading.Thread):
 
         if self.thread_name == 'thread-1':
 
-            # 跟踪后处理
+            # tracking post process
             self.track_model.post_process()
             count_main(cfg.Tracking.track_refine_output_path+'/txt', self.video_name)
             print('{} finished'.format(self.thread_name))
@@ -187,8 +184,8 @@ if __name__ == '__main__':
     obj_videos = ['cam_1_dawn', 'cam_1_rain','cam_2','cam_2_rain','cam_3_rain','cam_4','cam_4_dawn','cam_4_rain', 'cam_5','cam_5_dawn', 'cam_5_rain','cam_7','cam_7_dawn','cam_7_rain','cam_8']
     for video in videos:
         print('******', video)
-        if video.split('.')[0] in obj_videos:
-            continue
+        #if video.split('.')[0] in obj_videos:
+        #    continue
         #if video != 'cam_2.mp4' and video != 'cam_7.mp4' and video != 'cam_4.mp4' and video != 'cam_5.mp4':
         #    continue
         with open('time_record.txt', 'a') as f:

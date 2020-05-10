@@ -65,7 +65,6 @@ def merge_results(dets, bgs):
             
             final_bgs = []
             for bb in bgs:
-                # 计算与检测结果的IOU
                 max_iou, ind = cal_max_iou_ind(bb, dets)
                 if max_iou <= 0.0:
                     final_bgs.append(bb)

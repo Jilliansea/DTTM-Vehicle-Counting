@@ -73,7 +73,7 @@ class ContourDetection():
             bb_area = int((bb[2] - bb[0])) * int((bb[3] - bb[1]))
             bb_patch_roi = roi_img[int(bb[1]):int(bb[3]), int(bb[0]):int(bb[2])]
 
-            if len(np.where(bb_patch_roi < 255)[0]) < (0.4 * bb_area):  # 若目标面积的一半位于ignore区域，则删除
+            if len(np.where(bb_patch_roi < 255)[0]) < (0.4 * bb_area):  
                 filter_bbs.append(bb)
         return filter_bbs
 

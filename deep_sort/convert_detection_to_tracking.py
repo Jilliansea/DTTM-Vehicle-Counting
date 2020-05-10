@@ -227,7 +227,6 @@ def complete_track(track):
     return track
 
 def short_associate(results, frames, tracks, min_distance_threshold, prev_frame, start_frame, max_ang, max_angs):
-    # 对每个新目标id，与前3帧所有目标id计算轨迹相似度
     id_list = set()
     for i in frames[0:3]:
         for targets in results[i]:
@@ -236,25 +235,20 @@ def short_associate(results, frames, tracks, min_distance_threshold, prev_frame,
     for index, i in enumerate(frames[3:-3]):
         for target in results[i]:
             id = target[0]
-            # 新轨迹
             if id not in id_list:
-                # 计算新目标的运动方向
                 target_next = tracks[id]
                 frames_next = sorted(target_next.keys())
                 tar_next = target_next[frames_next[-1]][4]
                 direction_new = get_moving_vector(target[5], tar_next)
 
-                # 寻找前5帧中与新目标中心距离小于100，且运动方向角度小于90度的轨迹
                 min_distance = min_distance_threshold
                 old_id = 0
                 old_set = set()
                 for k in range(i-1, i-prev_frame, -1):
                     if k not in frames: continue
-                    # 对前5帧中的每一个目标
                     for old_target in results[k]:
                         if old_target[0] in old_set:
                             continue
-                        # 跳过id延续的目标
                         old_set.add(old_target[0])
                         jump = False
                         for j in range(i+start_frame, i+10):
@@ -266,14 +260,11 @@ def short_associate(results, frames, tracks, min_distance_threshold, prev_frame,
                                 break
                         if jump:
                             continue
-                        # 对于断裂轨迹，计算角度
                         target_prev = tracks[old_target[0]]
                         frames_prev = sorted(target_prev.keys())
                         tar_prev = target_prev[frames_prev[0]][4]
-                        # 旧轨迹与新轨迹之间的角度
                         direction_old = get_moving_vector(tar_prev, old_target[5])
                         ang = angle(direction_old, direction_new)
-                        # 约束旧轨迹的合理位置
                         direction_old_new = get_moving_vector(old_target[5], target[5])
                         angs = angle(direction_old, direction_old_new)
                         if ang >= max_ang or angs >= max_angs:
@@ -285,7 +276,6 @@ def short_associate(results, frames, tracks, min_distance_threshold, prev_frame,
                             #print(i, k, id, old_target[0], ang, angs, distance)
                             min_distance = distance
                             old_id = old_target[0]
-                # 连接旧轨迹
                 if old_id != 0:
                     print("old:" + str(old_id), " new:" + str(id))
                     m = index+3
@@ -296,7 +286,6 @@ def short_associate(results, frames, tracks, min_distance_threshold, prev_frame,
                         m += 1
                         if m >= len(frames):
                             break
-                # 开始下一帧新目标
                 else:
                     id_list.add(id)
     return results
@@ -314,23 +303,17 @@ def is_remove(track, id, min_distance):
 def track_processing(polygon, seq, imgs_path, track_results, output_path, display, associate_flag,
             min_distance_static=0, min_distance=0, prev_frame=0, start_frame=0, max_ang=0, max_angs=0):
 
-    #解析跟踪结果，保存为以id为key的字典存储
     tracks = analyze_list(track_results)
     start_time = time.time()
-    # 提高轨迹质量
     for id in sorted(tracks.keys()):
-        # 去掉长度小于两帧的track
         if len(tracks[id]) <= 2:
             #print(id)
             tracks.pop(id)
             continue
-        # 补充由于漏检产生的相同轨迹断裂
         tracks[id] = complete_track(tracks[id])
-        # 去掉静止目标的轨迹
         if is_remove(tracks[id], id, min_distance=min_distance_static):
             tracks.pop(id)
 
-    # 转换为以frame为key的字典存储
     results = {}
     for key in tracks.keys():
         for frame, targets in tracks[key].items():
@@ -339,7 +322,6 @@ def track_processing(polygon, seq, imgs_path, track_results, output_path, displa
             results[frame].append([key, targets[0], targets[1], targets[2], targets[3], targets[4], targets[-1]])
     frames = sorted(results)
 
-    # 短时轨迹关联
     if associate_flag:
         results = short_associate(results, frames, tracks, min_distance, prev_frame, start_frame, max_ang, max_angs)
 

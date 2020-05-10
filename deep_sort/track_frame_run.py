@@ -39,7 +39,6 @@ def run_frame_kcf(frame_idx, vis, display, image,
     detections = create_detections(detection, polygon, min_detection_height)
     # Update tracker.
     tracker.predict(image)
-    # 隔帧检测
     if s_flag and (frame_idx == 1 or frame_idx - pre_frame > sample_frame):
         tracker.update(detections, image)
         vis.update_frame(frame_idx)
@@ -57,7 +56,6 @@ def run_frame_kcf(frame_idx, vis, display, image,
         for track in tracker.tracks:
             if not track.is_confirmed() or track.time_since_update > 1:
                 continue
-            # 深拷贝
             bbox_t = copy.deepcopy(track.bbox)
             bbox_t[2:] = bbox_t[:2] + bbox_t[2:]
             track_and_det = 0
@@ -84,7 +82,6 @@ def run_frame(frame_idx, vis, display, image,
 
     # Update tracker.
     tracker.predict()
-    # 隔帧检测
     if s_flag and (frame_idx == 1 or frame_idx - pre_frame > sample_frame):
         tracker.update(detections)
         vis.update_frame(frame_idx)

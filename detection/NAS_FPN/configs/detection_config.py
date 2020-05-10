@@ -86,7 +86,7 @@ class NAS_FPN_Detection():
         labels = labels[filter_inds]
         labels[labels == self.class_names.index('bus')]=self.class_names.index('car')  # bus --> car
 
-        # 数据类型转换
+        # 
         labels = np.expand_dims(labels, 1)
         bboxes = np.hstack((bboxes, labels)).tolist() #[x1,y1,x2,y2,score, label_ind]
 
