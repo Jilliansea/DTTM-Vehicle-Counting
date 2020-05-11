@@ -1,6 +1,5 @@
 ffmpeg==1.4
 ffmpeg-python==0.2.0
-numpy==1.17.2
 opencv-python==4.1.0.25
 requests==2.18.4
 torch==1.1.0

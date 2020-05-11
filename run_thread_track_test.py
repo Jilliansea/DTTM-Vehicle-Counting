@@ -184,6 +184,8 @@ if __name__ == '__main__':
     obj_videos = ['cam_1_dawn', 'cam_1_rain','cam_2','cam_2_rain','cam_3_rain','cam_4','cam_4_dawn','cam_4_rain', 'cam_5','cam_5_dawn', 'cam_5_rain','cam_7','cam_7_dawn','cam_7_rain','cam_8']
     for video in videos:
         print('******', video)
+        if video.split('.')[0] not in ['cam_5', 'cam_7']:
+            continue
         #if video.split('.')[0] in obj_videos:
         #    continue
         #if video != 'cam_2.mp4' and video != 'cam_7.mp4' and video != 'cam_4.mp4' and video != 'cam_5.mp4':

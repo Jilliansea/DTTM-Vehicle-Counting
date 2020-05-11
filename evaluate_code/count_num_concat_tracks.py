@@ -15,7 +15,9 @@ import json
 import time
 import numpy as np
 from collections import Counter
+from .evaluation_every_movement import *
 from .mm import *
+
 import copy
 import time
 import math
@@ -97,23 +99,25 @@ def get_label(id, label_list, bboxes_truck, movement_id, indent, cam_name):
     cnt = Counter(label_list)
     label = cnt.most_common(1)[0][0]
  
-    max_size_thr_cam  = ['cam_4', 'cam_4_dawn', 'cam_4_rain', 'cam_5', 'cam_7', 'cam_6', 'cam_6_snow', 'cam_10', 'cam_11', 'cam_12', 'cam_15']
+    max_size_thr_cam  = ['cam_4', 'cam_4_dawn', 'cam_4_rain', 'cam_6', 'cam_6_snow', 'cam_10', 'cam_11', 'cam_12', 'cam_15']
     h_thr_cam = ['cam_3']
+    other_cam = ['cam_5', 'cam_7'] 
+   
+    # calculate analysis data
+    w_list = []
+    h_list = []
+    side_list = []
+    for i, bb in enumerate(bboxes_truck):
+        w = bb[2] - bb[0]
+        h = bb[3] - bb[1]
+        w_list.append(w)
+        h_list.append(h)
+        side_list.append(math.sqrt(w*h))
+    max_len = max(max(w_list), max(h_list))
+    max_w = max(w_list)
+    max_h = max(h_list)
 
     if cam_name in max_size_thr_cam:
-        # calculate analysis data
-        w_list = []
-        h_list = []
-        side_list = []
-        for i, bb in enumerate(bboxes_truck):
-            w = bb[2] - bb[0]
-            h = bb[3] - bb[1]
-            w_list.append(w)
-            h_list.append(h)
-            side_list.append(math.sqrt(w*h))
-        max_len = max(max(w_list), max(h_list))
-        max_w = max(w_list)
-        max_h = max(h_list)
         # start judgement
         if movement_id == '5':
             if max_len < 260 and label == 2:
@@ -141,18 +145,19 @@ def get_label(id, label_list, bboxes_truck, movement_id, indent, cam_name):
                 elif movement_id == '10' and label==2:
                     if max(side_list)<450:
                         label = 1
-            if cam_name == 'cam_5' and label == 2:
-                if movement_id == '5' and max_h < 90:
-                    label = 1
-                if movement_id == '7' and max_h > 100:
-                    label = 1
-                if movement_id == '9' and max_h < 210:
-                    label = 1
-                if movement_id == '10' and max_w/max_h < 2.0:
-                    label = 1
-            if cam_name == 'cam_7' and label == 2:
-                if movement_id == '2' and max_w <= 80:
-                    label = 1
+    elif cam_name in other_cam:
+        if cam_name == 'cam_5' and label == 2:
+            if movement_id == '5' and max_h < 90:
+                label = 1
+            if movement_id == '7' and max_h > 100:
+                label = 1
+            if movement_id == '9' and max_h < 210:
+                label = 1
+            if movement_id == '10' and max_w/max_h < 2.0:
+                label = 1
+        elif cam_name == 'cam_7' and label == 2:
+            if movement_id == '2' and max_w <= 80:
+                label = 1
 
     elif cam_name in h_thr_cam:
         new_label_list = []
@@ -604,15 +609,17 @@ def main(cam_name, track_result_path):
             id = infor['id']
             file_s.write("{} {} {} {} {}\n".format(cam_label, int(frame), track, label, id))
     file_s.close()
+    score = main_test_one(cam_res_save_path)
+    return score
 
 def count_main(track_res_path,video_name):
     main(video_name, track_res_path)
 
 
 if __name__ == '__main__':
-    track_res_path = '/home/luban/aicity_test/aicity/results/Tracking_time1/0416/AfterRefine/txt/'
+    track_res_path = '/home/luban/aicity_final/results/Tracking/results/AfterRefine/txt/'
     save_path = './'
     for cam_name in cam_name_to_id:
-        if cam_name == 'cam_4':
+        if cam_name == 'cam_5':
             print(cam_name)
             score = main(cam_name, track_res_path)
