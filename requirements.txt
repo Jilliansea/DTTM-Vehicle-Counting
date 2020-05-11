@@ -1,7 +1,7 @@
 ffmpeg==1.4
 ffmpeg-python==0.2.0
 opencv-python==4.1.0.25
-requests==2.18.4
+requests==2.20.0
 torch==1.1.0
 torchvision==0.3.0
 -e git+https://github.com/open-mmlab/mmcv.git@c294d2713ba75f9ac0709d7991e71802959dc391#egg=mmcv
