@@ -524,9 +524,9 @@ def add_infor(movement_counts, every_movement_life_time, max_frame_len, dic_traj
         save_results.append(index)
     return save_results
 
-def main(cam_name, track_result_path, max_frame_len):
+def main(cam_name, track_result_path):
     config_path = './evaluate_code/config/1570_add_no_obj.json'
-#    length_path = './evaluate_code/config/max_len_num.json'
+    length_path = './evaluate_code/config/max_len_num.json'
     not_care_infors = json.load(open('./evaluate_code/config/not_care_movements.json'))
     traj_segs_gt_path = './evaluate_code/config/track_model'
     max_truck_size_path = './evaluate_code/config/truck_min_size.json'
@@ -549,7 +549,7 @@ def main(cam_name, track_result_path, max_frame_len):
     else:
         config_infor = json.load(open(config_path, 'r'))[cam_name]
         max_truck_infor = json.load(open(max_truck_size_path))[cam_name]
-#    max_frame_len = json.load(open(length_path, 'r'))[cam_name]
+    max_frame_len = json.load(open(length_path, 'r'))[cam_name]
 
     #计算所有ID的进出口并进行记录
     if cam_name in not_care_infors:
@@ -581,7 +581,7 @@ def main(cam_name, track_result_path, max_frame_len):
             if track in add_cam_infor[add_cam_name]:
                 if frame + add_cam_infor[add_cam_name][track] < max_frame_len:
                     frame += add_cam_infor[add_cam_name][track]
-            file_s.write("{} {} {} {}\n".format(cam_label, int(frame), track, label))
+            file_s.write("{} {} {} {} {}\n".format(cam_label, int(frame), track, label, id))
         #把断裂和丢失未统计的轨迹车辆写入txt
         for infor in loss_id_infor:
             track = infor['movement']
@@ -591,7 +591,7 @@ def main(cam_name, track_result_path, max_frame_len):
             if track in add_cam_infor[add_cam_name]:
                 if float(frame) + add_cam_infor[add_cam_name][track] < max_frame_len:
                     frame = float(frame) + add_cam_infor[add_cam_name][track]
-            file_s.write("{} {} {} {}\n".format(cam_label, int(frame), track, label))
+            file_s.write("{} {} {} {} {}\n".format(cam_label, int(frame), track, label, id))
     else:
         #把同时有出入轨迹的计数车辆写入txt
         for infor in movement_counts_infor_write:
@@ -599,18 +599,18 @@ def main(cam_name, track_result_path, max_frame_len):
             frame = infor['out_frame']
             label = infor['label']
             id = infor['id']
-            file_s.write("{} {} {} {}\n".format(cam_label, int(frame), track, label))
+            file_s.write("{} {} {} {} {}\n".format(cam_label, int(frame), track, label, id))
         #把断裂和丢失未统计的轨迹车辆写入txt
         for infor in loss_id_infor:
             track = infor['movement']
             frame = infor['out_frame']
             label = infor['label']
             id = infor['id']
-            file_s.write("{} {} {} {}\n".format(cam_label, int(frame), track, label))
+            file_s.write("{} {} {} {} {}\n".format(cam_label, int(frame), track, label, id))
     file_s.close()
 
-def count_main(track_res_path,video_name, max_frame_len):
-    main(video_name, track_res_path, max_frame_len)
+def count_main(track_res_path,video_name):
+    main(video_name, track_res_path)
 
 
 if __name__ == '__main__':

@@ -5,3 +5,7 @@ count_nums
 **/*.swo
 **/__pycache__
 **/.DS_Store
+detection/NAS_FPN/checkpoints/
+test.jpg
+time_record.txt
+zw.txt

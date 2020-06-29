@@ -29,7 +29,8 @@ def detection_tracking_process(img, img_name, video_name, cfg,  Model, frame_num
         # Run Detection
         det_results = None
         if cfg.Tracking.sample and i % (cfg.Tracking.sample_frame + 1) == 0:
-            print("no detection")
+            #print("no detection")
+            pass
         else:
             # Background detection
             bg_results = []

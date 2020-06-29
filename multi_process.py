@@ -144,7 +144,8 @@ class RunFramework(threading.Thread):
         if self.thread_name == 'thread-1':
 
             self.track_model.post_process()
-            count_main(self.cfg.Tracking.track_refine_output_path+'/txt', self.video_name)
+            count_main(self.cfg.Tracking.track_refine_output_path+'/txt', self.video_name, self.frame_nums)
+#            count_main(self.cfg.Tracking.track_refine_output_path+'/txt', self.video_name)
             print('{} finished'.format(self.thread_name))
 
 def parse_args():
@@ -185,6 +186,8 @@ if __name__ == '__main__':
     video_dir = os.path.join(main_path, 'Dataset_A')
     videos = os.listdir(video_dir)
     videos = [video for video in videos if '.mp4' in video]
+
+    videos = ['cam_1.mp4']
 
     # put in queue
     video_queue = Queue()

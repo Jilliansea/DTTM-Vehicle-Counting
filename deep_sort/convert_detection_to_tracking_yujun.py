@@ -55,19 +55,10 @@ def write_results(imgs_path, output_file, seq, results, frames):
     check_dir(output_file)
     check_dir(output_file + '/txt')
     f = open(os.path.join(output_file + '/txt/', seq + '.txt'), 'w')
-    
-    import cv2
-    print('*****in convert')
-    cap = cv2.VideoCapture(imgs_path+'.mp4')
-    frame_nums = int(cap.get(7))
-    img_list = list(range(1,frame_nums))
+    img_list = sorted([img for img in os.listdir(imgs_path)])
 
-    print('***********video_length in convert:', frame_nums, imgs_path+'.mp4', len(img_list), img_list)
-
-    #img_list = sorted([img for img in os.listdir(imgs_path)])
     for img_name in img_list:
-#        frame = int(img_name.rstrip('.jpg').lstrip('0'))
-        frame = img_name
+        frame = int(img_name.rstrip('.jpg').lstrip('0'))
         if frame in frames:
             data = results[frame]
             for t in data:
@@ -286,7 +277,7 @@ def short_associate(results, frames, tracks, min_distance_threshold, prev_frame,
                             min_distance = distance
                             old_id = old_target[0]
                 if old_id != 0:
-                    #print("old:" + str(old_id), " new:" + str(id))
+                    print("old:" + str(old_id), " new:" + str(id))
                     m = index+3
                     while frames[m] in frames:
                         for new in results[frames[m]]:
@@ -346,4 +337,3 @@ def track_processing(polygon, seq, imgs_path, track_results, output_path, displa
 if __name__ == "__main__":
 
     pass
-

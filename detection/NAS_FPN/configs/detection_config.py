@@ -42,7 +42,7 @@ class NAS_FPN_Detection():
         return  config 
 
     def bbs_filter(self, imgs_bboxes, cfg, img):
-        print('detection cfg', cfg)
+        #print('detection cfg', cfg)
         if cfg.improve_recall:
             score_thr = 0.2
         else:

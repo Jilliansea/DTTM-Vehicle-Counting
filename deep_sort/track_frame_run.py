@@ -35,7 +35,7 @@ def run_frame_kcf(frame_idx, vis, display, image,
               tracker, s_flag, sample_frame):
     pre_frame = vis.pre_frame
     results = []
-    print("Processing frame %08d" % frame_idx)
+    #print("Processing frame %08d" % frame_idx)
     detections = create_detections(detection, polygon, min_detection_height)
     # Update tracker.
     tracker.predict(image)
@@ -77,7 +77,7 @@ def run_frame(frame_idx, vis, display, image,
               tracker, s_flag, sample_frame):
     pre_frame = vis.pre_frame
     results = []
-    print("Processing frame %08d" % frame_idx)
+    #print("Processing frame %08d" % frame_idx)
     detections = create_detections(detection, polygon, min_detection_height)
 
     # Update tracker.
