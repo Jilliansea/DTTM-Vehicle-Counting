@@ -23,7 +23,7 @@ Attention: If there are any errors about mmcv or mmdetection, please refer [Mmde
 ### Get videoes directory of Track1:
 After downloading packages of AICity Challenge 2020 Track1, please unzip and **$DirPath\_to\_Track1\_AIC20\_track1** is the final directory after unzip.
 ### Download detection model:
-1. Download our detection model on [RetinaNetNas-FPN](https://drive.google.com/drive/folders/1cEBRVSXJH_f6BNr_LvISRZmuMuIXnXPC) 
+1. Download our detection model on [RetinaNetNas-FPN](https://drive.google.com/file/d/1ieo-umrILexsytRql6wQEMMHoAVMKQ_d/view?usp=sharinghttps://drive.google.com/file/d/1ieo-umrILexsytRql6wQEMMHoAVMKQ_d/view?usp=sharing) 
 2. Put the model in directory **$root/detection/NAS\_FPN/checkpoints**
 3. Then our code can be run as follows
 ### Run test code 
