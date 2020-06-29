@@ -6,13 +6,13 @@ We propose a robust and fast vehicle turn-counts at intersections via an integra
 Our team ranks 6th in Public leaderboard and models of our algorithms are not trained with any extra datasets. 
 
 ## Installation
-Our code is tested on Tesla P40, 24G with following setting:
-(1) Linux
-(2) Python 3.6 (only test on python 3.6)
-(3) PyTorch 1.1 or higher
-(4) CUDA 10
-(5) NCCL 2
-(6) GCC 4.9 or higher
+Our code is tested on Tesla P40, 24G with following setting:  
+1. Linux  
+2. Python 3.6 (only test on python 3.6)  
+3. PyTorch 1.1 or higher  
+4. CUDA 10  
+5. NCCL 2  
+6. GCC 4.9 or higher  
 
 The fast way to install our code is running commond as follows:
 ```
